@@ -217,7 +217,7 @@ demo = gr.Interface(
     ],
     allow_flagging=UI_ALLOW_FLAGGING,
     api_name=UI_API_NAME,
-    theme=gr.themes.Soft(),
+    theme=gr.themes.Ocean(),
     concurrency_limit=UI_CONCURRENCY_LIMIT,
     examples=UI_EXAMPLES,
     cache_examples=UI_CACHE_EXAMPLES,
