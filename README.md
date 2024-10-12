@@ -8,7 +8,7 @@ sdk_version: 5.0.1
 app_file: app.py
 pinned: false
 header: mini
-short_description: Personalised Podcasts For Everyone - Available in 13 Languages
+short_description: Personalised Podcasts For All - Available in 13 Languages
 ---
 
 # Open NotebookLM
@@ -16,6 +16,12 @@ short_description: Personalised Podcasts For Everyone - Available in 13 Language
 ## Overview
 
 This project is inspired by the NotebookLM tool, and implements it with open-source LLMs and text-to-speech models. This tool processes the content of a PDF, generates a natural dialogue suitable for an audio podcast, and outputs it as an MP3 file.
+
+Built with:
+- [Llama 3.1 405B 🦙](https://huggingface.co/meta-llama/Llama-3.1-405B) via [Fireworks AI 🎆](https://fireworks.ai/)
+- [MeloTTS 🐚](https://huggingface.co/myshell-ai/MeloTTS-English)
+- [Bark 🐶](https://huggingface.co/suno/bark)
+- [Jina Reader 🔍](https://jina.ai/reader/)
 
 ## Features
 
