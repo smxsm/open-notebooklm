@@ -6,6 +6,9 @@ Functions:
 - call_llm: Call the LLM with the given prompt and dialogue format.
 - parse_url: Parse the given URL and return the text content.
 - generate_podcast_audio: Generate audio for podcast using TTS or advanced audio models.
+- _use_suno_model: Generate advanced audio using Bark.
+- _use_melotts_api: Generate audio using TTS model.
+- _get_melo_tts_params: Get TTS parameters based on speaker and language.
 """
 
 # Standard library imports
@@ -13,21 +16,19 @@ import time
 from typing import Any, Union
 
 # Third-party imports
+import instructor
 import requests
 from bark import SAMPLE_RATE, generate_audio, preload_models
+from fireworks.client import Fireworks
 from gradio_client import Client
-from openai import OpenAI
-from pydantic import ValidationError
 from scipy.io.wavfile import write as write_wav
 
 # Local imports
 from constants import (
     FIREWORKS_API_KEY,
-    FIREWORKS_BASE_URL,
     FIREWORKS_MODEL_ID,
     FIREWORKS_MAX_TOKENS,
     FIREWORKS_TEMPERATURE,
-    FIREWORKS_JSON_RETRY_ATTEMPTS,
     MELO_API_NAME,
     MELO_TTS_SPACES_ID,
     MELO_RETRY_ATTEMPTS,
@@ -38,8 +39,11 @@ from constants import (
 )
 from schema import ShortDialogue, MediumDialogue
 
-# Initialize clients
-fw_client = OpenAI(base_url=FIREWORKS_BASE_URL, api_key=FIREWORKS_API_KEY)
+# Initialize Fireworks client, with Instructor patch
+fw_client = Fireworks(api_key=FIREWORKS_API_KEY)
+fw_client = instructor.from_fireworks(fw_client)
+
+# Initialize Hugging Face client
 hf_client = Client(MELO_TTS_SPACES_ID)
 
 # Download and load all models for Bark
@@ -53,51 +57,13 @@ def generate_script(
 ) -> Union[ShortDialogue, MediumDialogue]:
     """Get the dialogue from the LLM."""
 
-    # Call the LLM
-    response = call_llm(system_prompt, input_text, output_model)
-    response_json = response.choices[0].message.content
-
-    # Validate the response
-    for attempt in range(FIREWORKS_JSON_RETRY_ATTEMPTS):
-        try:
-            first_draft_dialogue = output_model.model_validate_json(response_json)
-            break
-        except ValidationError as e:
-            if attempt == FIREWORKS_JSON_RETRY_ATTEMPTS - 1:  # Last attempt
-                raise ValueError(
-                    f"Failed to parse dialogue JSON after {FIREWORKS_JSON_RETRY_ATTEMPTS} attempts: {e}"
-                ) from e
-            error_message = (
-                f"Failed to parse dialogue JSON (attempt {attempt + 1}): {e}"
-            )
-            # Re-call the LLM with the error message
-            system_prompt_with_error = f"{system_prompt}\n\nPlease return a VALID JSON object. This was the earlier error: {error_message}"
-            response = call_llm(system_prompt_with_error, input_text, output_model)
-            response_json = response.choices[0].message.content
-            first_draft_dialogue = output_model.model_validate_json(response_json)
+    # Call the LLM for the first time
+    first_draft_dialogue = call_llm(system_prompt, input_text, output_model)
 
     # Call the LLM a second time to improve the dialogue
-    system_prompt_with_dialogue = f"{system_prompt}\n\nHere is the first draft of the dialogue you provided:\n\n{first_draft_dialogue}."
+    system_prompt_with_dialogue = f"{system_prompt}\n\nHere is the first draft of the dialogue you provided:\n\n{first_draft_dialogue.model_dump_json()}."
+    final_dialogue = call_llm(system_prompt_with_dialogue, "Please improve the dialogue. Make it more natural and engaging.", output_model)
 
-    # Validate the response
-    for attempt in range(FIREWORKS_JSON_RETRY_ATTEMPTS):
-        try:
-            response = call_llm(
-                system_prompt_with_dialogue,
-                "Please improve the dialogue. Make it more natural and engaging.",
-                output_model,
-            )
-            final_dialogue = output_model.model_validate_json(
-                response.choices[0].message.content
-            )
-            break
-        except ValidationError as e:
-            if attempt == FIREWORKS_JSON_RETRY_ATTEMPTS - 1:  # Last attempt
-                raise ValueError(
-                    f"Failed to improve dialogue after {FIREWORKS_JSON_RETRY_ATTEMPTS} attempts: {e}"
-                ) from e
-            error_message = f"Failed to improve dialogue (attempt {attempt + 1}): {e}"
-            system_prompt_with_dialogue += f"\n\nPlease return a VALID JSON object. This was the earlier error: {error_message}"
     return final_dialogue
 
 
@@ -111,10 +77,7 @@ def call_llm(system_prompt: str, text: str, dialogue_format: Any) -> Any:
         model=FIREWORKS_MODEL_ID,
         max_tokens=FIREWORKS_MAX_TOKENS,
         temperature=FIREWORKS_TEMPERATURE,
-        response_format={
-            "type": "json_object",
-            "schema": dialogue_format.model_json_schema(),
-        },
+        response_model=dialogue_format,
     )
     return response
 
