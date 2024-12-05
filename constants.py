@@ -128,7 +128,7 @@ UI_OUTPUTS = {
 }
 UI_API_NAME = "generate_podcast"
 UI_ALLOW_FLAGGING = "never"
-UI_CONCURRENCY_LIMIT = 3
+UI_CONCURRENCY_LIMIT = 1
 UI_EXAMPLES = [
     [
         [str(Path("examples/1310.4546v1.pdf"))],
