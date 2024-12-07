@@ -24,7 +24,7 @@ ERROR_MESSAGE_TOO_LONG = "The total content is too long. Please ensure the combi
 # Fireworks API-related constants
 FIREWORKS_API_KEY = os.getenv("FIREWORKS_API_KEY")
 FIREWORKS_MAX_TOKENS = 16_384
-FIREWORKS_MODEL_ID = "accounts/fireworks/models/llama-v3p1-405b-instruct"
+FIREWORKS_MODEL_ID = "accounts/fireworks/models/llama-v3p3-70b-instruct"
 FIREWORKS_TEMPERATURE = 0.1
 
 # MeloTTS
@@ -78,7 +78,7 @@ UI_DESCRIPTION = """
 Generate Podcasts from PDFs using open-source AI.
 
 Built with:
-- [Llama 3.1 405B 🦙](https://huggingface.co/meta-llama/Llama-3.1-405B) via [Fireworks AI 🎆](https://fireworks.ai/) and [Instructor 📐](https://github.com/instructor-ai/instructor) 
+- [Llama 3.3 70B 🦙](https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct) via [Fireworks AI 🎆](https://fireworks.ai/) and [Instructor 📐](https://github.com/instructor-ai/instructor) 
 - [MeloTTS 🐚](https://huggingface.co/myshell-ai/MeloTTS-English)
 - [Bark 🐶](https://huggingface.co/suno/bark)
 - [Jina Reader 🔍](https://jina.ai/reader/)
