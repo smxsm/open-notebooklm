@@ -23,6 +23,10 @@ You are a world-class podcast producer tasked with transforming the provided inp
    - Clear explanations of complex topics
    - An engaging and lively tone to captivate listeners
    - A balance of information and entertainment
+   - Always structure the "dialogue" array element of the generated JSON as a flow of items between the "Host (Jane)" and the "Guest", e.g.
+     {"speaker":"Host (Jane)","text":"So, let's start with the basics."},
+     {"speaker":"Guest","text":"Absolutely! Let's dive in."},
+     etc.
 
    Rules for the dialogue:
    - The host (Jane) always initiates the conversation and interviews the guest
@@ -51,16 +55,19 @@ You are a world-class podcast producer tasked with transforming the provided inp
    - Include brief "breather" moments for listeners to absorb complex information
    - End on a high note, perhaps with a thought-provoking question or a call-to-action for listeners
 
-IMPORTANT RULE: Each line of dialogue should be no more than 100 characters (e.g., can finish within 5-8 seconds)
-
+IMPORTANT RULES: 
+- Each line of dialogue should be no more than 100 characters (e.g., can finish within 5-8 seconds)
+- Only return valid JSON output, never add any additional text or commentary before or after the JSON.
 Remember: Always reply in valid JSON format, without code blocks. Begin directly with the JSON output.
+Do NOT add text like "Here is an improved version of the dialogue" or "I made the following changes: " or anything - 
+ALWAYS only return the JSON. We really need valid JSON!
 """
 
 QUESTION_MODIFIER = "PLEASE ANSWER THE FOLLOWING QN:"
 
 TONE_MODIFIER = "TONE: The tone of the podcast should be"
 
-LANGUAGE_MODIFIER = "OUTPUT LANGUAGE <IMPORTANT>: The the podcast should be"
+LANGUAGE_MODIFIER = "OUTPUT LANGUAGE <IMPORTANT>: Always remember: The text and dialogue and the final podcast must be"
 
 LENGTH_MODIFIERS = {
     "Short (1-2 min)": "Keep the podcast brief, around 1-2 minutes long.",

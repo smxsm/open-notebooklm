@@ -27,6 +27,11 @@ FIREWORKS_MAX_TOKENS = 16_384
 FIREWORKS_MODEL_ID = "accounts/fireworks/models/llama-v3p1-405b-instruct"
 FIREWORKS_TEMPERATURE = 0.1
 
+OPENAI_BASE_URL="http://localhost:11434/v1"
+OPENAI_MODEL_ID="llama3.1:8b"
+OPENAI_MAX_TOKENS = 16_384
+OPENAI_TEMPERATURE = 0.1
+
 # MeloTTS
 MELO_API_NAME = "/synthesize"
 MELO_TTS_SPACES_ID = "mrfakename/MeloTTS"
@@ -129,7 +134,8 @@ UI_OUTPUTS = {
 UI_API_NAME = "generate_podcast"
 UI_ALLOW_FLAGGING = "never"
 UI_CONCURRENCY_LIMIT = 3
-UI_EXAMPLES = [
+UI_EXAMPLES = []
+UI_EXAMPLES_OLD = [
     [
         [str(Path("examples/1310.4546v1.pdf"))],
         "",
