@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 class DialogueItem(BaseModel):
     """A single dialogue item."""
 
-    speaker: Literal["Host (Jane)", "Guest"]
+    speaker: Literal["Host (Lea)", "Guest"]
     text: str
 
 

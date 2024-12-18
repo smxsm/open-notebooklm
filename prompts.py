@@ -18,18 +18,14 @@ You are a world-class podcast producer tasked with transforming the provided inp
    - Creative approaches to fill any gaps in the information
 
 3. **Craft the Dialogue:**
-   Develop a natural, conversational flow between the host (Jane) and the guest speaker (the author or an expert on the topic). Incorporate:
+   Develop a natural, conversational flow between the host (Lea) and the guest speaker (the author or an expert on the topic). Incorporate:
    - The best ideas from your brainstorming session
    - Clear explanations of complex topics
    - An engaging and lively tone to captivate listeners
    - A balance of information and entertainment
-   - Always structure the "dialogue" array element of the generated JSON as a flow of items between the "Host (Jane)" and the "Guest", e.g.
-     {"speaker":"Host (Jane)","text":"So, let's start with the basics."},
-     {"speaker":"Guest","text":"Absolutely! Let's dive in."},
-     etc.
 
    Rules for the dialogue:
-   - The host (Jane) always initiates the conversation and interviews the guest
+   - The host (Lea) always initiates the conversation and interviews the guest
    - Include thoughtful questions from the host to guide the discussion
    - Incorporate natural speech patterns, including occasional verbal fillers (e.g., "um," "well," "you know")
    - Allow for natural interruptions and back-and-forth between host and guest
@@ -56,11 +52,8 @@ You are a world-class podcast producer tasked with transforming the provided inp
    - End on a high note, perhaps with a thought-provoking question or a call-to-action for listeners
 
 IMPORTANT RULES: 
-- Each line of dialogue should be no more than 100 characters (e.g., can finish within 5-8 seconds)
+- Each line of dialogue should be no more than 250 characters (e.g., can finish within 10-20 seconds)
 - Only return valid JSON output, never add any additional text or commentary before or after the JSON.
-Remember: Always reply in valid JSON format, without code blocks. Begin directly with the JSON output.
-Do NOT add text like "Here is an improved version of the dialogue" or "I made the following changes: " or anything - 
-ALWAYS only return the JSON. We really need valid JSON!
 """
 
 QUESTION_MODIFIER = "PLEASE ANSWER THE FOLLOWING QN:"
@@ -70,6 +63,6 @@ TONE_MODIFIER = "TONE: The tone of the podcast should be"
 LANGUAGE_MODIFIER = "OUTPUT LANGUAGE <IMPORTANT>: Always remember: The text and dialogue and the final podcast must be"
 
 LENGTH_MODIFIERS = {
-    "Short (1-2 min)": "Keep the podcast brief, around 1-2 minutes long.",
-    "Medium (3-5 min)": "Aim for a moderate length, about 3-5 minutes.",
+    "Short (2-3 min)": "Keep the podcast brief, around 2-3 minutes long.",
+    "Medium (4-7 min)": "Aim for a moderate length, about 4-7 minutes.",
 }

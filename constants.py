@@ -29,6 +29,7 @@ FIREWORKS_TEMPERATURE = 0.1
 
 OPENAI_BASE_URL="http://localhost:11434/v1"
 OPENAI_MODEL_ID="llama3.1:8b"
+#OPENAI_MODEL_ID="hhao/qwen2.5-coder-tools:14b"
 OPENAI_MAX_TOKENS = 16_384
 OPENAI_TEMPERATURE = 0.1
 
@@ -112,8 +113,8 @@ UI_INPUTS = {
     },
     "length": {
         "label": "5. ⏱️ Choose the length",
-        "choices": ["Short (1-2 min)", "Medium (3-5 min)"],
-        "value": "Medium (3-5 min)",
+        "choices": ["Short (2-3 min)", "Medium (4-7 min)"],
+        "value": "Medium (4-7 min)",
     },
     "language": {
         "label": "6. 🌐 Choose the language",

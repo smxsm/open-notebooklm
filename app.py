@@ -51,7 +51,6 @@ from prompts import (
 from schema import ShortDialogue, MediumDialogue
 from utils import generate_podcast_audio, generate_script, parse_url
 
-
 def generate_podcast(
     files: List[str],
     url: Optional[str],
@@ -127,7 +126,7 @@ def generate_podcast(
 
     for line in llm_output.dialogue:
         logger.info(f"Generating audio for {line.speaker}: {line.text}")
-        if line.speaker == "Host (Jane)":
+        if line.speaker == "Host (Lea)":
             speaker = f"**Host**: {line.text}"
         else:
             speaker = f"**{llm_output.name_of_guest}**: {line.text}"
